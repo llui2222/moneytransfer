@@ -1,0 +1,127 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger moneytransfer
+paths:
+  /v1/account/{accountId}/add:
+    put:
+      summary: add
+      operationId: add
+      requestBody:
+        description: value
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Value'
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: account id
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 9999999
+      responses:
+        '204':
+          description: added
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /v1/account/{accountId}/deduct:
+    put:
+      summary: deduct
+      operationId: deduct
+      requestBody:
+        description: value
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Value'
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: account id
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 9999999
+      responses:
+        '204':
+          description: deducted
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /v1/account/{accountFromId}/transfer/{accountToId}:
+    put:
+      summary: transfer
+      operationId: transfer
+      requestBody:
+        description: value
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Value'
+      parameters:
+        - name: accountFromId
+          in: path
+          required: true
+          description: account from id
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 9999999
+        - name: accountToId
+          in: path
+          required: true
+          description: account to id
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 9999999
+      responses:
+        '204':
+          description: transfered
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Value:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 999
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
